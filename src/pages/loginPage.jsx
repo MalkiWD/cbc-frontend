@@ -1,77 +1,55 @@
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
+
+
 export default function LoginPage() {
+const [email,setEmail]=useState("Your email")
+const [password,setPassword]=useState("")
+
+function login(){
+  axios.post("http://localhost:5000/api/users/login",{
+    email : email,
+    password : password
+  }).then(
+    (res)=>{
+      
+      if(res.data.user==null){
+        toast.error(res.data.message)
+        return
+      }
+        toast.success("Login success")
+      localStorage.setItem("token",res.data.token)
+      if(res.data.user.type == "admin"){
+        window.location.href = "/admin"
+      }else{
+        window.location.href = "/"
+      }
+    }
+
+  )
+}
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800">Login to Your Account</h2>
-        <form className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-4 py-2 mt-1 text-gray-900 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full px-4 py-2 mt-1 text-gray-900 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="remember-me"
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 text-sm text-gray-600"
-              >
-                Remember me
-              </label>
-            </div>
-            <a
-              href="#"
-              className="text-sm text-blue-600 hover:underline focus:outline-none"
-            >
-              Forgot your password?
-            </a>
-          </div>
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Sign In
-          </button>
-        </form>
-        <p className="text-sm text-center text-gray-600">
-          Don't have an account?{' '}
-          <a
-            href="#"
-            className="text-blue-600 hover:underline focus:outline-none"
-          >
-            Sign up
-          </a>
-        </p>
-      </div>
+    <div className='flex justify-center items-center w-full h-screen bg-red-900'>
+    <div className='w-[450px] h-[450px] bg-blue-600 flex flex-col justify-center items-center'>
+    <img src="/logo.jpeg" className="rounded-full w-[100px]"/>
+    <span>Email</span>
+    
+    <input defaultValue={email} onChange={
+      (e)=>{
+        setEmail(e.target.value) 
+    }
+    }/>
+    <span>Password</span>
+    <input type="password" defaultValue={password} onChange={
+      (e)=>{
+        setPassword(e.target.value)
+      }
+    }/>
+    <button onClick={login} className='bg-white'>Login</button>
+    </div>
     </div>
   );
+    
 }
