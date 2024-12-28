@@ -4,6 +4,7 @@ import { MdOutlineInventory2 } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import AdminProductsPage from "./admin/adminProductsPage";
+import AddProductForm from "./admin/addProductForm";
 
 export default function AdminHomePage() {
   return (
@@ -42,6 +43,7 @@ export default function AdminHomePage() {
         <Routes path="/*">
         <Route path="/dashboard" element={<h1>Dashboard</h1>}/>
         <Route path="/products" element={<AdminProductsPage/>}/>
+        <Route path="/products/addProduct" element={<AddProductForm/>} />
         <Route path="/orders" element={<h1>Orders</h1>}/>
         <Route path="/customers" element={<h1>Customers</h1>}/>
         <Route path="/*" element={<h1>404 page not found</h1>}/>
