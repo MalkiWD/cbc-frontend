@@ -6,14 +6,19 @@ import { Link } from "react-router-dom";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
+  const [productsLoaded, setProductsLoaded] = useState(false);
   
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products").then((res) => {
-      console.log("Use effect is running")
-      setProducts(res.data);
-    });
-  }, []);
+    if(!productsLoaded){
+      axios.get("http://localhost:5000/api/products").then((res) => {
+        
+        setProducts(res.data);
+        setProductsLoaded(true);
+      });
+    }
+    
+  }, [productsLoaded]);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen relative">
@@ -22,7 +27,8 @@ export default function AdminProductsPage() {
     
 
       <h1 className="text-2xl font-bold text-center mb-6">Admin Products Page</h1>
-      <div className="overflow-x-auto">
+      {
+        productsLoaded?<div className="overflow-x-auto">
         <table className="table-auto w-full bg-white shadow-md rounded-lg">
           <thead className="bg-blue-600 text-white">
             <tr>
@@ -55,7 +61,6 @@ export default function AdminProductsPage() {
                     title="Delete"
 
                     onClick={()=>{
-                      alert(product.productId)
                       const token = localStorage.getItem("token");
 
                       axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
@@ -65,7 +70,7 @@ export default function AdminProductsPage() {
                       }).then((res) => {
                         console.log(res.data);
                         toast.success("Product deleted successfully");
-                        window.location.reload();
+                        setProductsLoaded(false);
                       });
                     }}
                   >
@@ -82,7 +87,11 @@ export default function AdminProductsPage() {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>:<div className="w-full h-full flex justify-center items-center">
+        <div className="w-[60px] h-[60px] border-[4px] border-gray-200 border-b-[#3b52f6] animate-spin rounded-full">
+        </div></div>
+      }
+
     </div>
   );
 }
