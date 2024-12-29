@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaPencil, FaPlus, FaTrash } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
+  
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/products").then((res) => {
-      console.log(res.data);
+      console.log("Use effect is running")
       setProducts(res.data);
     });
   }, []);
@@ -16,6 +18,9 @@ export default function AdminProductsPage() {
   return (
     <div className="p-6 bg-gray-100 min-h-screen relative">
       <Link to={"/admin/products/addProduct"} className="absolute right-[25px] bottom-[25px] text-[25px] border-[#3b82f6] border-[2px] text-[#3b82f6] p-5 rounded-xl hover:rounded-full"><FaPlus/></Link>
+      
+    
+
       <h1 className="text-2xl font-bold text-center mb-6">Admin Products Page</h1>
       <div className="overflow-x-auto">
         <table className="table-auto w-full bg-white shadow-md rounded-lg">
@@ -48,6 +53,21 @@ export default function AdminProductsPage() {
                   <button
                     className="text-red-600 hover:text-red-800"
                     title="Delete"
+
+                    onClick={()=>{
+                      alert(product.productId)
+                      const token = localStorage.getItem("token");
+
+                      axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      }).then((res) => {
+                        console.log(res.data);
+                        toast.success("Product deleted successfully");
+                        window.location.reload();
+                      });
+                    }}
                   >
                     <FaTrash />
                   </button>

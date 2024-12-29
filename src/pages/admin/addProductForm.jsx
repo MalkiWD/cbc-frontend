@@ -1,4 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function AddProductForm() {
   const [productId, setProductId] = useState("");
@@ -9,6 +12,38 @@ export default function AddProductForm() {
   const [lastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate()
+
+  async function handleSubmit(){
+    const altNames = alternativeNames.split(",");
+    const imgUrls = imageUrls.split(",");
+
+    const product = {
+     productId : productId,
+     productName : productName,
+     altNames : altNames,
+     images : imgUrls,
+     price : price,
+     lastPrice : lastPrice,
+     stock : stock,
+     description : description
+    }
+
+    const token = localStorage.getItem("token")
+    try{
+      await axios.post("http://localhost:5000/api/products",product,{
+        headers : {
+          Authorization : "Bearer "+token
+        }
+      })
+      navigate("/admin/products")
+     toast.success("Product added successfully") 
+    }catch(err){
+     toast.error("Failed to add product")
+      
+    }
+    
+  }
 
 
   return (
@@ -107,8 +142,9 @@ export default function AddProductForm() {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
-          >
+            onClick={handleSubmit}>
             Add Product
+
           </button>
         </div>
       </div>
