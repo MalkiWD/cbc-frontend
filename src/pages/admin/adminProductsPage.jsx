@@ -14,6 +14,7 @@ export default function AdminProductsPage() {
       axios.get("http://localhost:5000/api/products").then((res) => {
         
         setProducts(res.data);
+        console.log(res.data);
         setProductsLoaded(true);
       });
     }

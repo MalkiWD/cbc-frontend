@@ -2,12 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import uploadMediaToSupabase from "../../utils/mediaUpload";
 
 export default function AddProductForm() {
   const [productId, setProductId] = useState("");
   const [productName, setProductName] = useState("");
   const [alternativeNames, setAlternativeNames] = useState("");
-  const [imageUrls, setImageUrls] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
   const [price, setPrice] = useState("");
   const [lastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
@@ -15,9 +16,17 @@ export default function AddProductForm() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const altNames = alternativeNames.split(",");
-    const imgUrls = imageUrls.split(",");
+    const altNames = alternativeNames.split(",")
 
+    const promisesArray = []
+    
+    for(let i=0; i<imageFiles.length; i++){
+      promisesArray[i] = uploadMediaToSupabase(imageFiles[i])
+    }
+   
+    const imgUrls = await Promise.all(promisesArray)
+
+   
     const product = {
       productId: productId,
       productName: productName,
@@ -81,11 +90,13 @@ export default function AddProductForm() {
           <div className="flex flex-col">
             <label className="text-sm text-gray-700 font-medium">Image URLs</label>
             <input
-              type="text"
+              type="file"
               className="mt-1 p-1 border rounded focus:outline-none focus:ring focus:ring-blue-500 text-sm"
               placeholder="Comma-separated values"
-              value={imageUrls}
-              onChange={(e) => setImageUrls(e.target.value)}
+              onChange={(e) => {
+                setImageFiles(e.target.files)
+              }}
+              multiple
             />
           </div>
           <div className="flex flex-col">
