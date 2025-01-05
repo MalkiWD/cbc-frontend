@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   return (
-    <div className="homepage">
-      <header>
-        <h1>Welcome to Our Website</h1>
-        <p>Your one-stop destination for all things awesome.</p>
-      </header>
-      <main>
-        <button>Learn More</button>
-        <button>Contact Us</button>
-      </main>
+    <div className="h-screen w-full">
+      
+        <h1>Welcome to Our Website!</h1>
+        <p>Explore a world of possibilities with our services. We are here to make your life easier and more enjoyable.</p>
+    
+      
+        <button onClick={()=> alert('Button CLicked!')}>Get Started</button>
+        
+    
       <Link to="/login">Login</Link> 
     </div> 
 
