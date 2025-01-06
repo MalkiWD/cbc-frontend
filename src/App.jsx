@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import ProductCard from './components/productCard'
-import UserData from './components/UserData'
+
 import LoginPage from './pages/loginPage'
 import Homepage from './pages/homePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
