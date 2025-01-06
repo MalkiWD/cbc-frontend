@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import ProductCard from './components/productCard'
-
 import LoginPage from './pages/loginPage'
 import Homepage from './pages/homePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -21,7 +20,7 @@ function App() {
      <Routes path="/*">
      <Route path="/*" element={<HomePage/>}/>
      <Route path="/login" element={<LoginPage/>}/>
-     <Route path='/signup' element={<UserData/>}/>
+     
      <Route path='/admin/*' element={<AdminHomePage/>}/>
      
      </Routes>
