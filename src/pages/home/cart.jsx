@@ -1,19 +1,53 @@
 import { useEffect, useState } from "react"
 import { loadCart } from "../../utils/cartFunction"
 import CartCard from "../../components/cartCard"
+import axios from "axios"
 
 export default function Cart(){
   const [cart,setCart]=useState([])
+  const [total,setTotal]=useState(0)
+  const [labeledTotal,setLabeledTotal]=useState(0)
 
   useEffect(
     ()=>{
       setCart(loadCart())
+      console.log(loadCart())
+      axios.post(import.meta.env.VITE_BACKEND_URL+"/api/orders/quote",{
+        orderedItems : loadCart()
+      }).then(
+        (res)=>{
+          console.log(res.data)
+          setTotal(res.data.total)
+          setLabeledTotal(res.data.labeledTotal)
+        }
+      )
     } , []
   )
 
   function onOrderCheckOutClick(){
-    //send order to backend
-    //clear cart
+    const token = localStorage.getItem("token");
+    if (token == null){
+      return;
+    }
+
+
+
+    axios.post(import.meta.env.VITE_BACKEND_URL+"/api/orders",{
+      orderedItems : cart,
+      name : "Malki",
+      address : "123, Galle Road, Colombo",
+      phone : "0758963245",
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+    ).then(
+      (res)=>{
+        console.log(res.data)
+      }
+    )
   }
 
   return(
@@ -39,8 +73,13 @@ export default function Cart(){
         )
       }
       </table>
-      <button className="bg-accent hover:bg-accent-light text-white p-2 rounded-lg w-[300px]">Check Out</button>
+      <h1 className="text-3xl font-bold text-accent">Total: LKR. {labeledTotal.toFixed(2)}</h1>
+      <h1 className="text-3xl font-bold text-accent">Discount: LKR. {(labeledTotal-total).toFixed(2)}</h1>
+      <h1 className="text-3xl font-bold text-accent">Grand Total: LKR. {total}</h1>
+
+
+      <button onClick={onOrderCheckOutClick} className="bg-accent hover:bg-accent-light text-white p-2 rounded-lg w-[300px]">Check Out</button>
     </div>
     
   )
-}
+} 
