@@ -33,7 +33,7 @@ export default function CartCard(props){
   )
 
   return(
-    <tr>
+    <tr className="hover:bg-accent hover:text-white cursor-pointer">
       <td className=""><img src={product?.images[0]} className="w-[90px] h-[90px] object-cover mx-auto"/></td>
       <td className="text-center"><span>{product?.productName}</span></td>
       <td className="text-center"><span>{productId}</span></td>

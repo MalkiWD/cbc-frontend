@@ -11,8 +11,13 @@ export default function Cart(){
     } , []
   )
 
+  function onOrderCheckOutClick(){
+    //send order to backend
+    //clear cart
+  }
+
   return(
-    <div className="w-full h-full over-flow-y-scroll flex flex-col items-center">
+    <div className="w-full h-full over-flow-y-scroll flex flex-col items-end">
       <table className="w-full">
         <thead>
           <tr>
@@ -20,6 +25,8 @@ export default function Cart(){
             <th>Product Name</th>
             <th>Product ID</th>
             <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
           </tr>
         </thead>
       {
@@ -32,6 +39,7 @@ export default function Cart(){
         )
       }
       </table>
+      <button className="bg-accent hover:bg-accent-light text-white p-2 rounded-lg w-[300px]">Check Out</button>
     </div>
     
   )
