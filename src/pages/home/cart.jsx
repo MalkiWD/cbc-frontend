@@ -13,6 +13,15 @@ export default function Cart(){
 
   return(
     <div className="w-full h-full over-flow-y-scroll flex flex-col items-center">
+      <table className="w-full">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Product ID</th>
+            <th>Qty</th>
+          </tr>
+        </thead>
       {
         cart.map(
           (item)=>{
@@ -22,6 +31,8 @@ export default function Cart(){
           }
         )
       }
+      </table>
     </div>
+    
   )
 }

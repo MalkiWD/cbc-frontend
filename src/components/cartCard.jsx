@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { deleteItem } from "../utils/cartFunction"
 
 export default function CartCard(props){
   const productId = props.productId
@@ -10,10 +11,16 @@ export default function CartCard(props){
   useEffect(
     ()=>{
       if(!loaded){
-        axios.get(import.meta.env.VITE_BACKEND_URL+"/product/"+productId).then(
+        axios.get(import.meta.env.VITE_BACKEND_URL+"/api/products/"+productId).then(
           (response)=>{
-            setProduct(response.data)
-            setLoaded(true)
+            if(response.data!=null){
+              setProduct(response.data)
+              console.log(response.data)
+              setLoaded(true)
+            }else{
+              deleteItem(productId)
+            }
+           
           }
 
         ).catch(
@@ -26,10 +33,13 @@ export default function CartCard(props){
   )
 
   return(
-    <div className="border w-1/2 flex justify-between items-center">
-      <span>{productId}</span>
-      <span>X</span>
-      <span>{qty}</span>
-    </div>
+    <tr>
+      <td className=""><img src={product?.images[0]} className="w-[90px] h-[90px] object-cover mx-auto"/></td>
+      <td className="text-center"><span>{product?.productName}</span></td>
+      <td className="text-center"><span>{productId}</span></td>
+      <td className="text-center"><span>{qty}</span></td>
+      <td className="text-center">LKR. {product?.lastPrice.toFixed(2)}</td>
+      <td className="text-center">{(product?.lastPrice*qty).toFixed(2)}</td>
+      </tr>
   )
 }
