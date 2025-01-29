@@ -53,14 +53,18 @@ export default function ProductOverview() {
       {
       status === "found" && (
         
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="w-[35%] h-full">
+          <div className="w-full h-full flex flex-col lg:flex-row  items-center justify-center">
+            <h1 className="text-3xl font-bold text-gray-800 lg:hidden">{product.productName}</h1>
+            <p className="text-xl text-gray-600 lg:hidden">{(product.price>product.lastPrice)&&
+              <span className="line-through text-red-500">LKR.{product.price}</span>}
+              <span> {"LKR."+product.lastPrice}</span></p>
+            <div className="w-[100%] lg:w-[35%] lg:h-full">
               <ImageSlider images={product.images}/>
           </div>
           <div className="w-[65%] h-full p-4">
-            <h1 className="text-3xl font-bold text-gray-800">{product.productName}</h1>
-            <h1 className="text-3xl font-bold text-gray-500">{product.altNames.join(" | ")}</h1>
-            <p className="text-xl text-gray-600">{(product.price>product.lastPrice)&&
+            <h1 className="text-3xl font-bold text-gray-800 hidden lg:block">{product.productName}</h1>
+            <h1 className="text-3xl font-bold text-gray-500 ">{product.altNames.join(" | ")}</h1>
+            <p className="text-xl text-gray-600 hidden lg:block">{(product.price>product.lastPrice)&&
               <span className="line-through text-red-500">LKR.{product.price}</span>}
               <span> {"LKR."+product.lastPrice}</span></p>
             <p className="text-lg text-gray-600 line-clamp-3">{product.description}</p>

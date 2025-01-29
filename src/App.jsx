@@ -8,6 +8,7 @@ import HomePage from './pages/homePage'
 import SignInPage from './pages/signInPage'
 import AdminHomePage from './pages/adminHomePage'
 import { Toaster } from 'react-hot-toast'
+import ResponseTest from './pages/admin/responseTest'
 
 
 function App() {
@@ -20,8 +21,8 @@ function App() {
      <Routes path="/*">
      <Route path="/*" element={<HomePage/>}/>
      <Route path="/login" element={<LoginPage/>}/>
-     
      <Route path='/admin/*' element={<AdminHomePage/>}/>
+     <Route path="/response" element={<ResponseTest/>}/>
      
      </Routes>
      
